@@ -6,9 +6,9 @@ const HomeScreen = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const { data } = await axios.get("/api/events");
-      setEvents(data);
-      console.log(data);
+      const {data} = await axios.get("/api/events");
+      setEvents(data.events);
+      console.log(data.events);
     };
 
     fetchEvents();

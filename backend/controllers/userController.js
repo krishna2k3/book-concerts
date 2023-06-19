@@ -1,18 +1,112 @@
 import asyncHandler from "../middleware/asyncHandler.js";
-import users from "../data/users.js";
+import User from "../models/userModel.js";
 
 // @desc    Login user & get token
 // @route   POST /api/users/login
 // @access  Public
 const loginUser = asyncHandler(async (req, res) => {
-  res.send("Login User");
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email: email });
+
+  if (user && (await user.matchPassword(password))) {
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      gender: user.gender,
+      dob: user.dob,
+      organisation: user.organisation,
+      contact: user.contact,
+      isAdmin: user.isAdmin,
+      isverified: user.isVerified,
+      isGod: user.isGod,
+      isAdmin: user.isAdmin,
+      isEditor: user.isEditor,
+      isMember: user.isMember,
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid email or password");
+  }
 });
 
 // @desc    Register user
 // @route   POST /api/users/
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  res.send("Login User");
+  const {
+    name,
+    email,
+    password,
+    gender,
+    dob,
+    organisation,
+    contact,
+    isVerified,
+    isGod,
+    isAdmin,
+    isEditor,
+    isMember,
+  } = req.body;
+
+  const userExists = await User.findOne({ email });
+
+  if (userExists) {
+    res.status(400);
+    throw new Error("User already exists");
+  }
+
+  console.log(
+    name,
+    email,
+    password,
+    gender,
+    dob,
+    organisation,
+    contact,
+    isVerified,
+    isGod,
+    isAdmin,
+    isEditor,
+    isMember
+  );
+
+  const user = await User.create({
+    name,
+    email,
+    password,
+    gender,
+    dob,
+    organisation,
+    contact,
+    isVerified,
+    isGod,
+    isAdmin,
+    isEditor,
+    isMember,
+  });
+
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      gender: user.gender,
+      dob: user.dob,
+      organisation: user.organisation,
+      contact: user.contact,
+      isVerified: user.isVerified,
+      isGod: user.isGod,
+      isAdmin: user.isAdmin,
+      isEditor: user.isEditor,
+      isMember: user.isMember,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
 });
 
 // @desc    Logout

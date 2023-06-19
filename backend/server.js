@@ -10,6 +10,7 @@ import users from "./data/users.js";
 const port = process.env.PORT || 5000;
 
 import userRoutes from "./routes/userRoutes.js";
+import eventRoutes from "./routes/eventRoutes.js";
 
 connectDB();
 
@@ -25,10 +26,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", userRoutes);
-
-app.get("/api/events", (req, res) => {
-  res.json(events);
-});
+app.use("/api/events", eventRoutes);
 
 // app.get("/api/users", (req, res) => {
 //   res.json(users);
