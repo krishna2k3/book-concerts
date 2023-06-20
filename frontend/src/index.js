@@ -9,11 +9,13 @@ import {
 import { Provider } from "react-redux";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
+import store from "./store.js";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import HomeScreen from "./screens/HomeScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
+import EventScreen from "./screens/EventScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +23,7 @@ const router = createBrowserRouter(
       <Route index={true} path="/" element={<HomeScreen />} />
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/login" element={<LoginScreen />} />
+      <Route path="/event/:id" element={<EventScreen />} />
     </Route>
   )
 );
@@ -29,9 +32,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <HelmetProvider>
-      {/* <Provider store={store}> */}
+      <Provider store={store}>
         <RouterProvider router={router} />
-      {/* </Provider> */}
+      </Provider>
     </HelmetProvider>
   </React.StrictMode>
 );
