@@ -4,7 +4,7 @@ const users = [
   {
     name: 'The God',
     email: 'god@email.com',
-    password: bcrypt.hashSync("123456", 10),
+    password: bcrypt.hashSync("12345678", 10),
     gender: "male",
     dob: '2003-03-23',
     organisation: "God Club",
@@ -18,7 +18,7 @@ const users = [
   {
     name: "The Admin",
     email: "admin@email.com",
-    password: bcrypt.hashSync("123456", 10),
+    password: bcrypt.hashSync("12345678", 10),
     gender: "male",
     dob: '2003-03-23',
     organisation: "Ariana Fan Club",

@@ -10,13 +10,20 @@ export const eventsApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Event"],
       keepUnusedDataFor: 5,
     }),
-    getEventById: builder.query({
+    getEventDetails: builder.query({
       query: (eventId) => ({
         url: `${EVENTS_URL}/${eventId}`,
       }),
       keepUnusedDataFor: 5,
     }),
+    createEvent: builder.mutation({
+      query: () => ({
+        url: EVENTS_URL,
+        method: "POST",
+      }),
+      invalidatesTags: ["Event"],
+    }),
   }),
 });
 
-export const { useGetEventsQuery } = eventsApiSlice;
+export const { useGetEventsQuery, useGetEventDetailsQuery } = eventsApiSlice;

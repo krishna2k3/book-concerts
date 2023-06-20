@@ -1,5 +1,6 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
+import generateToken from "../utils/generateToken.js";
 
 // @desc    Login user & get token
 // @route   POST /api/users/login
@@ -10,6 +11,8 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email: email });
 
   if (user && (await user.matchPassword(password))) {
+    generateToken(res, user._id);
+
     res.status(200).json({
       _id: user._id,
       name: user.name,
@@ -35,20 +38,8 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const {
-    name,
-    email,
-    password,
-    gender,
-    dob,
-    organisation,
-    contact,
-    isVerified,
-    isGod,
-    isAdmin,
-    isEditor,
-    isMember,
-  } = req.body;
+  const { name, email, password, gender, dob, organisation, contact } =
+    req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -113,7 +104,11 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/logout
 // @access  Public
 const logoutUser = asyncHandler(async (req, res) => {
-  res.send("Login User");
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "Logged out successfully" });
 });
 
 // @desc    Get user profile

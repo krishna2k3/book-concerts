@@ -28,9 +28,8 @@ app.get("/", (req, res) => {
 app.use("/api/users", userRoutes);
 app.use("/api/events", eventRoutes);
 
-// app.get("/api/users", (req, res) => {
-//   res.json(users);
-// });
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

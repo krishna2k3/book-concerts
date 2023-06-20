@@ -13,6 +13,7 @@ function App() {
         <Outlet />
       </main>
       <Footer />
+      <ToastContainer />
     </>
   );
 }
